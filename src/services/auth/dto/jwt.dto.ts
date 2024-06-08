@@ -1,20 +1,44 @@
-import { IsString, IsEmail, isNumber, IsNumber } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+
+export class SignUpDTO {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+}
 
 export class JwtLoginDTO {
   @IsEmail()
   email: string;
 
   @IsString()
+  @IsNotEmpty()
   password: string;
 }
 
-export class signUpDTO {
-  @IsEmail()
-  email: string;
-
+export class RefreshTokenDTO {
   @IsString()
-  password: string;
+  @IsNotEmpty()
+  refreshToken: string;
+}
 
+export class ValidateTokenDTO {
   @IsString()
-  name: string;
+  @IsNotEmpty()
+  token: string;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface ValidateTokenResponse {
+  isValid: boolean;
 }
