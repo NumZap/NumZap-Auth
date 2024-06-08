@@ -61,7 +61,7 @@ export class AuthService {
     });
 
     const refreshToken = this.jwtService.sign(
-      { id: user.id },
+      { id: newUser.id },
       { expiresIn: '7d' },
     );
 
@@ -77,5 +77,14 @@ export class AuthService {
     return {
       token: this.jwtService.sign({ id: newUser.id }),
     };
+  }
+
+  async jwtValidate(token: string): Promise<{ id: number } | undefined> {
+    try {
+      const decoded = this.jwtService.verify(token);
+      return decoded.id;
+    } catch (e) {
+      throw new HttpException('Invalid token', 403);
+    }
   }
 }

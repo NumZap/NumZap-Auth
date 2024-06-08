@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtLoginDTO, SignUpDTO } from './dto/jwt.dto';
 
@@ -16,5 +16,12 @@ export class AuthController {
   @Post('login')
   async login(@Body() body: JwtLoginDTO) {
     return this.authService.validate(body);
+  }
+
+  // 검증
+  @Post('validate')
+  async validate(@Headers('Authorization') authHeader: string) {
+    const token = authHeader.split(' ')[1];
+    return this.authService.jwtValidate(token);
   }
 }
